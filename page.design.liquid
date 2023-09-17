@@ -1,0 +1,461 @@
+{% layout 'layout' %}
+{% section 'header' %}
+<style>
+  .hidden {
+    display: none;
+  }
+
+  #loadingIndicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Add the following styles */
+  .design-page-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .left-section {
+    position: relative;
+    width: 50%;
+    height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(to bottom right, yellow, orange);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .right-section {
+    position: relative;
+    width: 50%;
+    height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(to bottom right, orange, red);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  #generateDesignBtn,
+  #checkoutBtn,
+  #pixelArtBtn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #generateDesignBtn:hover,
+  #checkoutBtn:hover,
+  #pixelArtBtn:hover {
+    background-color: #2980b9;
+  }
+
+  /* Add space between the "Generate" and "Pixel Art" buttons */
+  #generateDesignBtn {
+    margin-bottom: 70px;
+  }
+
+  #designPrompt {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+  }
+
+  canvas {
+    display: none;
+  }
+
+  .canvas-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .inspiration-section {
+    width: 100%;
+    height: calc(50vh - 100px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(to bottom right, yellow, orange);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+
+  .inspiration-images-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .inspiration-images-container img {
+    width: 30%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .how-it-works-section {
+    width: 100%;
+    height: calc(50vh - 100px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(to bottom right, yellow, orange);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+  }
+
+  .how-it-works-section ol {
+    margin-left: 20px;
+  }
+
+  .how-it-works-section ol li {
+    margin-bottom: 10px;
+  }
+
+  /* End of added styles */
+
+  /* Add the following styles for mobile view */
+  @media (max-width: 767px) {
+    .design-page-container {
+      flex-direction: column;
+    }
+
+    .left-section,
+    .right-section {
+      width: 100%;
+      margin-right: 0;
+      margin-left: 0;
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+
+    .right-section {
+      display: none;
+    }
+
+    .left-section {
+      position: relative;
+      height: auto;
+    }
+
+    h1,
+    h2 {
+      font-size: 24px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+
+    @media screen and (max-width: 768px) {
+      #designCanvas {
+        display: none;
+      }
+
+      .mobile-canvas {
+        display: block;
+        margin-top: 20px;
+      }
+
+      #loadingIndicator {
+        position: fixed;
+      }
+    }
+
+    /* End of added styles for mobile view */
+  </style>
+
+  <div class="design-page">
+    <div class="design-page-container">
+      <div class="left-section">
+        <h1>Design your T-Shirt</h1>
+        <div>
+          <label for="designPrompt">Design prompt:</label>
+          <input type="text" id="designPrompt" placeholder="Enter a design prompt" required>
+        </div>
+        <p>Example: A cat riding a skateboard in space</p>
+        <button id="generateDesignBtn">Generate Design</button>
+        <button id="pixelArtBtn">Pixel Art</button>
+      </div>
+
+      <div class="right-section">
+        <div class="canvas-container">
+          <canvas id="rightDesignCanvas" width="300" height="400"></canvas>
+        </div>
+        <button id="checkoutBtn" disabled>Checkout</button>
+      </div>
+
+      <img id="loadingIndicator" class="hidden" src="https://i.imgur.com/s8QZl1c.gif" alt="Loading...">
+    </div>
+  </div>
+
+  <canvas id="designCanvasMobile"></canvas>
+
+  <div class="inspiration-section">
+    <h2>Inspiration Gallery</h2>
+    <div class="inspiration-images-container">
+      <img src="inspiration1.jpg" alt="Inspiration 1">
+      <img src="inspiration2.jpg" alt="Inspiration 2">
+      <img src="inspiration3.jpg" alt="Inspiration 3">
+    </div>
+  </div>
+
+  <div class="how-it-works-section">
+    <h2>How it Works</h2>
+    <p>It's easy to design your own custom T-shirt!</p>
+    <ol>
+      <li>Enter a design prompt.</li>
+      <li>Click "Generate Design" or "Pixel Art."</li>
+      <li>Customize the design if desired.</li>
+      <li>Click "Checkout" to purchase your custom T-shirt!</li>
+    </ol>
+  </div>
+
+  <script>
+  console.log('JavaScript loaded successfully!');
+
+  let imageUrl = '';
+
+  const customTshirtProductId = 'gid://shopify/Product/8184351981849';
+  const customTshirtVariantId = 'gid://shopify/ProductVariant/44867288793369';
+  const storefrontAccessToken = '2f3f64a742edf7209855a82ff99ac005';
+  const tshirtTemplateUrl = '{{ 'tshirtTemplate.png' | asset_img_url }}';
+
+  function enableCheckout() {
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    if (imageUrl) {
+      checkoutBtn.disabled = false;
+    } else {
+      checkoutBtn.disabled = true;
+    }
+  }
+
+  function drawImageOnCanvas(imageUrl) {
+  const canvas = document.getElementById('rightDesignCanvas');
+  const mobileCanvas = document.getElementById('designCanvasMobile');
+
+  if (!canvas && !mobileCanvas) {
+    alert('Cannot render the canvas element');
+    return;
+  }
+
+  const canvasId = window.innerWidth <= 768 && mobileCanvas ? 'designCanvasMobile' : 'rightDesignCanvas';
+  const ctx = document.getElementById(canvasId).getContext('2d');
+
+  if (!ctx) {
+    alert('Cannot obtain 2D context');
+    return;
+  }
+
+  const tshirtTemplate = new Image();
+  tshirtTemplate.src = tshirtTemplateUrl;
+  tshirtTemplate.onload = () => {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.drawImage(tshirtTemplate, 0, 0, ctx.canvas.width, ctx.canvas.height);
+    const imageX = ctx.canvas.width * 0.25;
+    const imageY = ctx.canvas.height * 0.25;
+    const imageWidth = ctx.canvas.width * 0.5;
+    const imageHeight = ctx.canvas.height * 0.5;
+    const img = new Image();
+    img.src = imageUrl;
+    img.onload = () => {
+      ctx.drawImage(img, imageX, imageY, imageWidth, imageHeight);
+      enableCheckout();
+    };
+  };
+
+  if (!imageUrl) {
+    alert('Cannot draw the image on canvas. Please try again.');
+    hideLoadingIndicator();
+    return;
+  }
+
+  const canvasToShow = window.innerWidth <= 768 && mobileCanvas ? mobileCanvas : canvas;
+  canvasToShow.style.display = 'block';
+  if (mobileCanvas && window.innerWidth <= 768) {
+    checkContext(canvasToShow, mobileCanvas);
+  } else {
+    checkContext(canvasToShow);
+  }
+
+  // Render the image on the mobile canvas after a small delay
+  if (mobileCanvas) {
+    setTimeout(() => {
+      const mobileCtx = mobileCanvas.getContext('2d');
+      if (mobileCtx) {
+        mobileCtx.clearRect(0, 0, mobileCanvas.width, mobileCanvas.height);
+        mobileCtx.drawImage(tshirtTemplate, 0, 0, mobileCanvas.width, mobileCanvas.height);
+        const mobileImageX = mobileCanvas.width * 0.25;
+        const mobileImageY = mobileCanvas.height * 0.25;
+        const mobileImageWidth = mobileCanvas.width * 0.5;
+        const mobileImageHeight = mobileCanvas.height * 0.5;
+        const img = new Image();
+        img.src = imageUrl;
+        img.onload = () => {
+          mobileCtx.drawImage(img, mobileImageX, mobileImageY, mobileImageWidth, mobileImageHeight);
+          mobileCanvas.style.display = 'block';
+        };
+      } else {
+        alert('Cannot obtain 2D context for mobile canvas');
+      }
+    }, 1000);
+  }
+}
+
+  
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+    console.log('Starting up...');
+
+    const designPrompt = document.getElementById('designPrompt');
+    const generateDesignBtn = document.getElementById('generateDesignBtn');
+    const apiKey = 'cad8857c-be3d-4102-96bc-a912bf5bb4e4';
+    const apiUrlText2Img = 'https://api.deepai.org/api/text2img';
+    const apiUrlPixelArt = 'https://api.deepai.org/api/pixel-art-generator';
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const pixelArtBtn = document.getElementById('pixelArtBtn');
+
+    console.log('Finished setup.');
+
+    function showLoadingIndicator() {
+      const loadingIndicator = document.getElementById('loadingIndicator');
+      loadingIndicator.classList.remove('hidden');
+    }
+
+    generateDesignBtn.addEventListener('click', async () => {
+      showLoadingIndicator();
+
+      try {
+        const response = await fetch(apiUrlText2Img, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'api-key': apiKey,
+          },
+          body: `text=${designPrompt.value}&grid_size=1`,
+        });
+
+        if (!response.ok) {
+          console.error(await response.json());
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const jsonResponse = await response.json();
+        imageUrl = jsonResponse.output_url;
+        console.log('Generated image URL:', imageUrl);
+
+        setTimeout(() => {
+          if (window.innerWidth <= 768) {
+            drawImageOnCanvas(imageUrl, 'designCanvasMobile');
+          } else {
+            drawImageOnCanvas(imageUrl, 'rightDesignCanvas');
+          }
+        }, 500);
+      } catch (error) {
+        alert('An error occurred while generating the image.');
+        console.error(error);
+      }
+    });
+
+    pixelArtBtn.addEventListener('click', async () => {
+      showLoadingIndicator();
+
+      try {
+        const response = await fetch(apiUrlPixelArt, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'api-key': apiKey,
+          },
+          body: `text=${designPrompt.value}`,
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const jsonResponse = await response.json();
+        imageUrl = jsonResponse.output_url;
+
+        drawImageOnCanvas(imageUrl);
+      } catch (error) {
+        alert('An error occurred while generating the pixel art.');
+        console.error(error);
+      }
+    });
+
+    const client = ShopifyBuy.buildClient({
+      storefrontAccessToken: storefrontAccessToken,
+      domain: 't-shirt-ai.myshopify.com',
+    });
+
+    function getBase64EncodedId(id) {
+      return btoa(id);
+    }
+
+    checkoutBtn.addEventListener('click', async () => {
+      try {
+        const base64ProductId = getBase64EncodedId(customTshirtProductId);
+        const base64VariantId = getBase64EncodedId(customTshirtVariantId);
+
+        const checkout = await client.checkout.create();
+        const lineItems = [
+          {
+            variantId: base64VariantId,
+            quantity: 1,
+            customAttributes: [
+              {
+                key: 'generated_image_url',
+                value: imageUrl,
+              },
+            ],
+          },
+        ];
+
+        const updatedCheckout = await client.checkout.addLineItems(
+          checkout.id,
+          lineItems
+        );
+
+        window.location.href = updatedCheckout.webUrl;
+      } catch (error) {
+        alert('An error occurred while proceeding to checkout.');
+        console.error(error);
+      }
+    });
+  });
+</script>
