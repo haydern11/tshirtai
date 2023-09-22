@@ -6,4 +6,4 @@ i have zero coding knowledge and built this with ChatGPT
 
 i am now stuck where i am unable to efficiently ssort out the bugs
 
-the basic functionality workss though!
+the basic functionality workss though
