@@ -1,0 +1,375 @@
+{% layout 'layout' %}
+{% section 'header' %}
+<style>
+  .hidden {
+    display: none;
+  }
+
+  #loadingIndicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+  }
+
+  .design-page-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .left-section {
+    position: relative;
+    width: 50%;
+    height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(to bottom right, yellow, orange);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .right-section {
+    position: relative;
+    width: 50%;
+    height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(to bottom right, orange, red);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  #generateDesignBtn,
+  #checkoutBtn,
+  #pixelArtBtn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #generateDesignBtn:hover,
+  #checkoutBtn:hover,
+  #pixelArtBtn:hover {
+    background-color: #2980b9;
+  }
+
+  #generateDesignBtn {
+    margin-bottom: 70px;
+  }
+
+  #designPrompt {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+  }
+
+  canvas {
+    display: none;
+  }
+
+  .canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+
+  .inspiration-section {
+    width: 100%;
+    height: calc(50vh - 100px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(to bottom right, yellow, orange);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+
+  .inspiration-images-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .inspiration-images-container img {
+    width: 30%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .how-it-works-section {
+    width: 100%;
+    height: calc(50vh - 100px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(to bottom right, yellow, orange);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+  }
+
+  .how-it-works-section ol {
+    margin-left: 20px;
+  }
+
+  .how-it-works-section ol li {
+    margin-bottom: 10px;
+  }
+
+  /* Combined Styles for Mobile View */
+  @media (max-width: 768px) {
+    .design-page-container {
+      flex-direction: column;
+    }
+
+    .left-section,
+    .right-section {
+      width: 100%;
+      margin-right: 0;
+      margin-left: 0;
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+
+    .right-section {
+      display: none;
+    }
+
+    .left-section {
+      position: relative;
+      height: auto;
+    }
+
+    h1,
+    h2 {
+      font-size: 24px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+
+    #designCanvas {
+      display: none;
+    }
+
+    #designCanvasMobile {
+      display: block;
+      border: 1px solid black;  /* For visualization */
+      margin: 20px auto;  /* Center the canvas */
+    }
+
+    #loadingIndicator {
+      position: fixed;
+    }
+  }
+
+</style>
+
+<div class="design-page">
+  <div class="design-page-container">
+    <div class="left-section">
+      <h1>Design your T-Shirt</h1>
+      <div>
+        <label for="designPrompt">Design prompt:</label>
+        <input type="text" id="designPrompt" placeholder="Enter a design prompt" required>
+      </div>
+      <p>Example: A cat riding a skateboard in space</p>
+      <button id="generateDesignBtn">Generate Design</button>
+      <button id="pixelArtBtn">Pixel Art</button>
+    </div>
+
+    <div class="right-section">
+      <div class="canvas-container">
+        <canvas id="rightDesignCanvas" width="300" height="400"></canvas>
+      </div>
+      <button id="removeBackgroundBtn" disabled>Remove Background</button>
+      <button id="checkoutBtn" disabled>Checkout</button>
+    </div>
+
+    <img id="loadingIndicator" class="hidden" src="https://i.imgur.com/s8QZl1c.gif" alt="Loading...">
+  </div>
+</div>
+
+<canvas id="designCanvasMobile"></canvas>
+
+<div class="inspiration-section">
+  <h2>Inspiration Gallery</h2>
+  <div class="inspiration-images-container">
+    <img src="inspiration1.jpg" alt="Inspiration 1">
+    <img src="inspiration2.jpg" alt="Inspiration 2">
+    <img src="inspiration3.jpg" alt="Inspiration 3">
+  </div>
+</div>
+
+<div class="how-it-works-section">
+  <h2>How it Works</h2>
+  <p>It's easy to design your own custom T-shirt!</p>
+  <ol>
+    <li>Enter a design prompt.</li>
+    <li>Click "Generate Design" or "Pixel Art."</li>
+    <li>Customize the design if desired.</li>
+    <li>Click "Checkout" to purchase your custom T-shirt!</li>
+  </ol>
+</div>
+
+
+<script>
+
+console.log('JavaScript loaded successfully!');
+
+let imageUrl = '';
+
+function enableCheckout() {
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const removeBackgroundBtn = document.getElementById('removeBackgroundBtn'); // New Line
+    if (imageUrl) {
+        checkoutBtn.disabled = false;
+        removeBackgroundBtn.disabled = false; // New Line
+    } else {
+        checkoutBtn.disabled = true;
+        removeBackgroundBtn.disabled = true; // New Line
+    }
+}
+
+// Function to convert canvas to Blob
+async function canvasToBlob(canvas) {
+    return new Promise((resolve) => {
+        canvas.toBlob((blob) => {
+            resolve(blob);
+        }, 'image/png');
+    });
+}
+
+// Function to remove the background using Photoroom API
+async function removeBackground() {
+    console.log("Starting background removal process..."); // Added console log
+    const canvasId = window.innerWidth <= 768 ? 'designCanvasMobile' : 'rightDesignCanvas';
+    const canvas = document.getElementById(canvasId);
+    const blob = await canvasToBlob(canvas);
+
+    const formData = new FormData();
+    formData.append("image_file", blob);
+    
+    console.log("Sending API request to remove background..."); // Added console log
+
+    const response = await fetch("https://sdk.photoroom.com/v1/segment", {
+        method: "POST",
+        headers: { "x-api-key": "77cf11414395ab4315629a1d456fa1cb4d9148c4" },
+        body: formData
+    });
+
+    if (response.ok) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        console.log("Background removed successfully!"); // Added console log
+        return url;
+    } else {
+        const errorMsg = await response.text();
+        console.error('Failed to remove background:', errorMsg);
+        return null;
+    }
+}
+
+function drawImageOnCanvas(imageUrl) {
+    const canvasId = window.innerWidth <= 768 ? 'designCanvasMobile' : 'rightDesignCanvas';
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d');
+    canvas.style.display = 'block';
+    const img = new Image();
+    img.crossOrigin = "Anonymous";  // Added this line to resolve the issue
+    img.src = imageUrl;
+
+    img.onload = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        enableCheckout();
+    };
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const designPrompt = document.getElementById('designPrompt');
+    const generateDesignBtn = document.getElementById('generateDesignBtn');
+    const pixelArtBtn = document.getElementById('pixelArtBtn');
+    const apiKey = 'cad8857c-be3d-4102-96bc-a912bf5bb4e4';
+    const apiUrlText2Img = 'https://api.deepai.org/api/text2img';
+    const apiUrlPixelArt = 'https://api.deepai.org/api/pixel-art-generator';
+    const removeBackgroundBtn = document.getElementById('removeBackgroundBtn');  
+    removeBackgroundBtn.addEventListener('click', async () => {
+        console.log("Remove Background Button Clicked");  // Added console log
+        const newImageUrl = await removeBackground();  // Call the removeBackground function
+        if (newImageUrl) {
+            imageUrl = newImageUrl;
+            drawImageOnCanvas(imageUrl);
+        }
+    });
+
+    generateDesignBtn.addEventListener('click', async () => {
+        console.log("Generate Design Button Clicked");
+        const response = await fetch(apiUrlText2Img, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'api-key': apiKey,
+            },
+            body: `text=${designPrompt.value}&grid_size=1`,
+        });
+
+        const jsonResponse = await response.json();
+        imageUrl = jsonResponse.output_url;
+        console.log("Image URL Received: ", imageUrl);
+        await drawImageOnCanvas(imageUrl);
+    });
+
+    pixelArtBtn.addEventListener('click', async () => {
+        console.log("Pixel Art Button Clicked");
+        const response = await fetch(apiUrlPixelArt, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'api-key': apiKey,
+            },
+            body: `text=${designPrompt.value}&grid_size=1`,
+        });
+
+        const jsonResponse = await response.json();
+        imageUrl = jsonResponse.output_url;
+        console.log("Pixel Art Image URL Received: ", imageUrl);
+        await drawImageOnCanvas(imageUrl);
+    });
+});
+
+
+
+</script>
