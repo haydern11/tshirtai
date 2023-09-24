@@ -1,55 +1,50 @@
 {% layout 'layout' %}
 {% section 'header' %}
 <style>
-  .hidden {
-    display: none;
-  }
+    .hidden {
+      display: none;
+    }
 
-  .design-page-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    margin: 0 20px;
-  }
-
-  .left-section,
-  .right-section {
-    position: relative;
-    flex: 1;
-    min-height: 60vh;  /* Adjusted the min-height here */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-
-  .left-section {
-    background: linear-gradient(to bottom right, orange, red);
-  }
-
-  .right-section {
-    background: linear-gradient(to bottom right, orange, green);
-  }
-
-  @media (max-width: 768px) {
     .design-page-container {
-      flex-direction: column;
-      align-items: stretch;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-left: 20px;
+      margin-right: 20px;
     }
-    .left-section,
-    .right-section {
-      flex: none;
-      width: 100%;
-      height: auto;
-    }
-  }
-</style>
 
-<div
+    .left-section
+     {
+      position: relative;
+      width: 50%;
+      height: 100vh; /* Updated */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(to bottom right, orange, red);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px; /* Updated */
+      box-sizing: border-box;
+      overflow: hidden;  /* Updated */
+    }
+
+
+
+    .right-section {
+      position: relative;
+      width: 50%;
+      height: 100vh; /* Updated */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(to bottom right, orange, green);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px; /* Updated */
+      box-sizing: border-box;
+      overflow: hidden;  /* Updated */
+    }
 
      #generateDesignBtn,
     #checkoutBtn,
@@ -173,21 +168,55 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+ /* New styles for button grid */
+  .button-grid {
+    display: none;  /* Hide it by default */
+  }
+
+
+/* Add Media Query for Laptop View */
+  @media (max-width: 768px) {
+  .button-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+  }
+  
+  .button-grid button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .button-grid button:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Specific styling for the Go button */
+  .button-grid #goBtn {
+    background-color: green;
+  }
+
+  .button-grid #goBtn:hover {
+    background-color: darkgreen;
+  }
+}
 
   /* Add Media Query for Mobile View */
-  @media (max-width: 768px) {
-    .design-page-container {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .left-section,
-    .right-section {
-      flex: none;
-      width: 100%;
-      height: auto;
+   @media (min-width: 769px) {
+    .button-grid {
+      display: grid;  /* Show the grid */
+      grid-template-columns: 1fr 1fr 1fr;  /* 3 columns with equal width */
+      grid-gap: 10px;  /* Gap between grid items */
     }
   }
 </style>
+
 
 <div class="design-page">
   <div class="design-page-container">
@@ -198,12 +227,14 @@
         <input type="text" id="designPrompt" placeholder="Enter a design prompt" required>
       </div>
       <p>Example: A cat riding a skateboard in space</p>
-      <button id="defaultArtBtn">Default</button>
-      <button id="pixelArtBtn">Pixel Art</button>
-      <button id="fantasyBtn">Fantasy</button>
-      <button id="cyberpunkBtn">Cyberpunk</button>
-      <button id="cuteBtn">Cute</button>
-      <button id="goBtn">Go</button>
+      <div class="button-grid">  <!-- New Grid container -->
+        <button id="defaultArtBtn">Default</button>
+        <button id="pixelArtBtn">Pixel Art</button>
+        <button id="fantasyBtn">Fantasy</button>
+        <button id="cyberpunkBtn">Cyberpunk</button>
+        <button id="cuteBtn">Cute</button>
+        <button id="goBtn">Go</button>
+      </div>
     </div>
     <div class="right-section">
       <div class="canvas-container">
