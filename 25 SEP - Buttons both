@@ -175,36 +175,37 @@
 
 
 /* Add Media Query for Laptop View */
-  @media (min-width: 769px) {
-    .button-grid {
-      display: grid;  /* Show the grid */
-      grid-template-columns: 1fr 1fr 1fr;  /* 3 columns with equal width */
-      grid-gap: 10px;  /* Gap between grid items */
-    }
+  @media (max-width: 768px) {
+  .button-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+  }
+  
+  .button-grid button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
 
-    .button-grid button {
-      background-color: #3498db;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+  .button-grid button:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Specific styling for the Go button */
+  .button-grid #goBtn {
+    background-color: green;
+  }
 
-    .button-grid button:hover {
-      background-color: #2980b9;
-    }
-
-    /* Specific styling for the Go button */
-    .button-grid #goBtn {
-      background-color: green;
-    }
-
-    .button-grid #goBtn:hover {
-      background-color: darkgreen;
-    }
+  .button-grid #goBtn:hover {
+    background-color: darkgreen;
+  }
+}
 
   /* Add Media Query for Mobile View */
    @media (min-width: 769px) {
