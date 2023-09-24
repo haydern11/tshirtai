@@ -168,22 +168,54 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+ /* New styles for button grid */
+  .button-grid {
+    display: none;  /* Hide it by default */
+  }
+
+
+/* Add Media Query for Laptop View */
+  @media (min-width: 769px) {
+    .button-grid {
+      display: grid;  /* Show the grid */
+      grid-template-columns: 1fr 1fr 1fr;  /* 3 columns with equal width */
+      grid-gap: 10px;  /* Gap between grid items */
+    }
+
+    .button-grid button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button-grid button:hover {
+      background-color: #2980b9;
+    }
+
+    /* Specific styling for the Go button */
+    .button-grid #goBtn {
+      background-color: green;
+    }
+
+    .button-grid #goBtn:hover {
+      background-color: darkgreen;
+    }
 
   /* Add Media Query for Mobile View */
-    @media (max-width: 768px) {
-    .design-page-container {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .left-section, .right-section {
-      width: 100%;
-      height: auto; /* Allow the height to be determined by content */
-    }
-    .canvas-container {
-      height: 400px; /* Fix the height of the canvas container */
+   @media (min-width: 769px) {
+    .button-grid {
+      display: grid;  /* Show the grid */
+      grid-template-columns: 1fr 1fr 1fr;  /* 3 columns with equal width */
+      grid-gap: 10px;  /* Gap between grid items */
     }
   }
 </style>
+
 
 <div class="design-page">
   <div class="design-page-container">
@@ -194,12 +226,14 @@
         <input type="text" id="designPrompt" placeholder="Enter a design prompt" required>
       </div>
       <p>Example: A cat riding a skateboard in space</p>
-      <button id="defaultArtBtn">Default</button>
-      <button id="pixelArtBtn">Pixel Art</button>
-      <button id="fantasyBtn">Fantasy</button>
-      <button id="cyberpunkBtn">Cyberpunk</button>
-      <button id="cuteBtn">Cute</button>
-      <button id="goBtn">Go</button>
+      <div class="button-grid">  <!-- New Grid container -->
+        <button id="defaultArtBtn">Default</button>
+        <button id="pixelArtBtn">Pixel Art</button>
+        <button id="fantasyBtn">Fantasy</button>
+        <button id="cyberpunkBtn">Cyberpunk</button>
+        <button id="cuteBtn">Cute</button>
+        <button id="goBtn">Go</button>
+      </div>
     </div>
     <div class="right-section">
       <div class="canvas-container">
