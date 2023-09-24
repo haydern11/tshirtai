@@ -13,7 +13,24 @@
     margin-right: 20px;
   }
 
-  .left-section,
+  .left-section
+   {
+    position: relative;
+    width: 50%;
+    height: 100vh; /* Updated */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(to bottom right, orange, red);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px; /* Updated */
+    box-sizing: border-box;
+    overflow: hidden;  /* Updated */
+  }
+  
+
+  
   .right-section {
     position: relative;
     width: 50%;
@@ -21,28 +38,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(to bottom right, yellow, orange);
+    background: linear-gradient(to bottom right, orange, green);
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px; /* Updated */
     box-sizing: border-box;
     overflow: hidden;  /* Updated */
   }
-  }
-
-  .right-section {
-    position: relative;
-    width: 50%;
-    height: calc(100vh - 200px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: linear-gradient(to bottom right, orange, red);
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    box-sizing: border-box;
-  }
+  
    #generateDesignBtn,
   #checkoutBtn,
   #pixelArtBtn {
@@ -65,6 +68,62 @@
   #generateDesignBtn {
     margin-bottom: 70px;
   }
+
+  .inspiration-section {
+  width: 100%;
+  height: calc(50vh - 100px); /* Set the height to 50% of the viewport height minus 100px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to bottom right, yellow, orange);
+
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  box-sizing: border-box;
+  margin-top: 20px; /* Add margin to the top */
+  margin-right: 20px; /* Add margin to the right */
+  margin-left: 20px; /* Add margin to the left */
+}
+
+.inspiration-images-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+
+}
+
+.inspiration-images-container img {
+  width: 30%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.how-it-works-section {
+  width: 100%;
+  height: calc(50vh - 100px); /* Set the height to 50% of the viewport height minus 100px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to bottom right, yellow, orange);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  box-sizing: border-box;
+  margin-top: 20px; /* Add margin to the top */
+  margin-right: 20px; /* Add margin to the right */
+  margin-left: 20px; /* Add margin to the left */
+  margin-bottom: 20px
+  
+}
+
+.how-it-works-section ol {
+  margin-left: 20px;
+}
+
+.how-it-works-section ol li {
+  margin-bottom: 10px;
+}
 
   #designPrompt {
     width: 100%;
@@ -158,6 +217,25 @@
       <button id="checkoutBtn" disabled>Checkout</button>
     </div>
   </div>
+
+<div class="inspiration-section">
+  <h2>Inspiration Gallery</h2>
+  <div class="inspiration-images-container">
+    <img src="inspiration1.jpg" alt="Inspiration 1">
+    <img src="inspiration2.jpg" alt="Inspiration 2">
+    <img src="inspiration3.jpg" alt="Inspiration 3">
+  </div>
+</div>
+
+<div class="how-it-works-section">
+  <h2>How it Works</h2>
+  <p>It's easy to design your own custom T-shirt!</p>
+  <ol>
+    <li>Enter a design prompt.</li>
+    <li>Click "Generate Design."</li>
+    <li>Customize the design if desired.</li>
+    <li>Click "Checkout" to purchase your custom T-shirt!</li>
+  </ol>
 </div>
 
 <script>
@@ -173,6 +251,7 @@
   let metadata = {
   originalImageUrl: null,
   noBackgroundImageUrl: null,
+  checkoutVersionURL: null
   checkoutVersion: null
 };
 
@@ -216,6 +295,7 @@
   } else if (currentImageType === "noBackground") {
     console.log("User checked out with the image with no background.");
   }
+  metadata.checkoutVersion = currentImageType; // set checkout image version
 }
 
 // Attach this function to your checkout button
@@ -385,7 +465,7 @@ async function drawImageOnCanvas(imageUrl) {
 
     document.getElementById('checkoutBtn').addEventListener('click', () => {
   
-  metadata.checkoutVersion = imageUrl;  // Assuming 'imageUrl' contains the final image URL
+  metadata.checkoutVersionURL = imageUrl;  // Assuming 'imageUrl' contains the final image URL
   
   // Convert metadata object to an array of name/value pairs
   const customAttributes = {};
@@ -394,7 +474,7 @@ async function drawImageOnCanvas(imageUrl) {
   }
 
   // Add custom attributes to cart item
-  const variantId = 'your_variant_id_here'; // The variant ID of the product you want to add to the cart
+  const variantId = '44867288793369'; // The variant ID of the product you want to add to the cart
 
   fetch(`/cart/add.js`, {
     method: 'POST',
