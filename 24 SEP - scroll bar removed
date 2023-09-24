@@ -13,19 +13,20 @@
     margin-right: 20px;
   }
 
-  .left-section {
+  .left-section,
+  .right-section {
     position: relative;
     width: 50%;
-    height: calc(100vh - 200px);
+    height: 100vh; /* Updated */
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(to bottom right, yellow, orange);
     border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 20px;
+    padding: 10px; /* Updated */
     box-sizing: border-box;
-    overflow-y: auto;  /* Added for vertical scrollbar */
+    overflow: hidden;  /* Updated */
+  }
   }
 
   .right-section {
@@ -40,11 +41,8 @@
     border-radius: 5px;
     padding: 20px;
     box-sizing: border-box;
-    overflow-y: auto;  /* Added for vertical scrollbar */
-    z-index: 1;  /* Added for z-index */
   }
-
-  #generateDesignBtn,
+   #generateDesignBtn,
   #checkoutBtn,
   #pixelArtBtn {
     background-color: #3498db;
@@ -115,20 +113,21 @@
     100% { transform: rotate(360deg); }
   }
 
-  /* Add Media Query for Mobile View */
+/* Add Media Query for Mobile View */
   @media (max-width: 768px) {
-    .design-page-container {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .left-section, .right-section {
-      width: 100%;
-      height: auto; /* Allow the height to be determined by content */
-    }
-    .canvas-container {
-      height: 400px; /* Fix the height of the canvas container */
-    }
+  .design-page-container {
+    flex-direction: column;
+    align-items: flex-start;
   }
+  .left-section, .right-section {
+    width: 100%;
+    height: auto; /* Allow the height to be determined by content */
+  }
+  .canvas-container {
+    height: 400px; /* Fix the height of the canvas container */
+  }
+}
+
 </style>
 
 <div class="design-page">
@@ -160,17 +159,7 @@
   </div>
 </div>
 
-
-
-
-
 <script>
-var orderNumber = 1;  // Initialize order number
-
-function generateOrderNumber() {
-  // Generate a 7-digit order number by padding with zeros
-  return String(orderNumber).padStart(7, '0');
-}
  var tshirtTemplateUrl = "{{ 'tshirtTemplate.png' | asset_url }}";
   const A4_WIDTH_IN_PIXELS = 2480;
 
@@ -183,8 +172,7 @@ function generateOrderNumber() {
   let metadata = {
   originalImageUrl: null,
   noBackgroundImageUrl: null,
-  checkoutVersion: null,
-  orderNumber: null  // Add this line
+  checkoutVersion: null
 };
 
   function enableCheckout() {
@@ -397,8 +385,6 @@ async function drawImageOnCanvas(imageUrl) {
     document.getElementById('checkoutBtn').addEventListener('click', () => {
   
   metadata.checkoutVersion = imageUrl;  // Assuming 'imageUrl' contains the final image URL
-metadata.orderNumber = generateOrderNumber();  // Add the generated order number
-orderNumber++;  // Increment the order number for the next order
   
   // Convert metadata object to an array of name/value pairs
   const customAttributes = {};
@@ -407,7 +393,7 @@ orderNumber++;  // Increment the order number for the next order
   }
 
   // Add custom attributes to cart item
-  const variantId = '44867288793369'; // The variant ID of the product you want to add to the cart
+  const variantId = 'your_variant_id_here'; // The variant ID of the product you want to add to the cart
 
   fetch(`/cart/add.js`, {
     method: 'POST',
