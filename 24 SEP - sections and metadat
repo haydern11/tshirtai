@@ -45,6 +45,7 @@
     box-sizing: border-box;
     overflow: hidden;  /* Updated */
   }
+  
    #generateDesignBtn,
   #checkoutBtn,
   #pixelArtBtn {
@@ -186,8 +187,13 @@
     height: 400px; /* Fix the height of the canvas container */
   }
 }
-
 </style>
+
+
+
+
+
+
 
 <div class="design-page">
   <div class="design-page-container">
@@ -237,6 +243,11 @@
   </ol>
 </div>
 
+
+
+
+
+
 <script>
  var tshirtTemplateUrl = "{{ 'tshirtTemplate.png' | asset_url }}";
   const A4_WIDTH_IN_PIXELS = 2480;
@@ -250,6 +261,7 @@
   let metadata = {
   originalImageUrl: null,
   noBackgroundImageUrl: null,
+  checkoutVersionURL: null,
   checkoutVersion: null
 };
 
@@ -293,6 +305,7 @@
   } else if (currentImageType === "noBackground") {
     console.log("User checked out with the image with no background.");
   }
+  metadata.checkoutVersion = currentImageType; // set checkout image version
 }
 
 // Attach this function to your checkout button
@@ -338,8 +351,6 @@ document.getElementById('checkoutBtn').addEventListener('click', checkout);
     return null;
   }
 }
-
-
 
 async function drawImageOnCanvas(imageUrl) {
   showLoading();
@@ -462,7 +473,7 @@ async function drawImageOnCanvas(imageUrl) {
 
     document.getElementById('checkoutBtn').addEventListener('click', () => {
   
-  metadata.checkoutVersion = imageUrl;  // Assuming 'imageUrl' contains the final image URL
+  metadata.checkoutVersionURL = imageUrl;  // Assuming 'imageUrl' contains the final image URL
   
   // Convert metadata object to an array of name/value pairs
   const customAttributes = {};
