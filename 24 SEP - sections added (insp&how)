@@ -471,7 +471,7 @@ async function drawImageOnCanvas(imageUrl) {
   }
 
   // Add custom attributes to cart item
-  const variantId = 'your_variant_id_here'; // The variant ID of the product you want to add to the cart
+  const variantId = '44867288793369'; // The variant ID of the product you want to add to the cart
 
   fetch(`/cart/add.js`, {
     method: 'POST',
