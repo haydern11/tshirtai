@@ -295,6 +295,7 @@
   } else if (currentImageType === "noBackground") {
     console.log("User checked out with the image with no background.");
   }
+  metadata.checkoutVersion = currentImageType; // set checkout image version
 }
 
 // Attach this function to your checkout button
@@ -473,7 +474,7 @@ async function drawImageOnCanvas(imageUrl) {
   }
 
   // Add custom attributes to cart item
-  const variantId = 'your_variant_id_here'; // The variant ID of the product you want to add to the cart
+  const variantId = '44867288793369'; // The variant ID of the product you want to add to the cart
 
   fetch(`/cart/add.js`, {
     method: 'POST',
