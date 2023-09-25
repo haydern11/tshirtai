@@ -1,6 +1,10 @@
 {% layout 'layout' %}
 {% section 'header' %}
+
+<!-- CSS Styles -->
 <style>
+/* Common Styles for Both Laptop and Mobile */
+
     .hidden {
       display: none;
     }
@@ -174,14 +178,15 @@
   }
 
 
-/* Add Media Query for Laptop View */
+/* Laptop View Specific Styles */
   @media (max-width: 768px) {
   .button-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 10px;
   }
-  
+
+  /* Generic Button Styles */
   .button-grid button {
     background-color: #3498db;
     color: white;
@@ -193,11 +198,12 @@
     transition: background-color 0.3s ease;
   }
 
+/* Generic Button Hover */
   .button-grid button:hover {
     background-color: #2980b9;
   }
   
-  /* Specific styling for the Go button */
+  /* Specific Styling for Go button */
   .button-grid #goBtn {
     background-color: green;
   }
@@ -207,8 +213,10 @@
   }
 }
 
-  /* Add Media Query for Mobile View */
+
+  /* Mobile View Specific Styles */
    @media (min-width: 769px) {
+ /* Your mobile-specific styles */
     .button-grid {
       display: grid;  /* Show the grid */
       grid-template-columns: 1fr 1fr 1fr;  /* 3 columns with equal width */
