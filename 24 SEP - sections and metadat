@@ -186,6 +186,12 @@
     .canvas-container {
       height: 400px; /* Fix the height of the canvas container */
     }
+
+    .button-grid {
+      display: grid;  /* Show the grid */
+      grid-template-columns: 1fr 1fr 1fr;  /* 3 columns with equal width */
+      grid-gap: 10px;  /* Gap between grid items */
+    }
   }
 </style>
 
