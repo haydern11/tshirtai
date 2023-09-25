@@ -255,7 +255,7 @@
           <div class="loader"></div>
         </div>
       </div>
-      <button id="removeBackgroundBtn" disabled>Remove Background</button>
+      <button id="removeBackgroundBtn" hidden>Remove Background</button>
       <button id="resetBackgroundBtn"hidden>Reset Background</button>
       <button id="checkoutBtn" disabled>Checkout</button>
       <button id="frontBtn">Front</button>
@@ -598,12 +598,15 @@ document.getElementById('backBtn').addEventListener('click', function() {
         });
 
         if (response.ok) {
-          const jsonResponse = await response.json();
-          imageUrl = jsonResponse.output_url;
-          metadata.originalImageUrl = imageUrl; // Update metadata
-          console.log("Image URL Received: ", imageUrl);
-          await drawImageOnCanvas(imageUrl);
-          hideLoading();
+    const jsonResponse = await response.json();
+    imageUrl = jsonResponse.output_url;
+    metadata.originalImageUrl = imageUrl; // Update metadata
+    console.log("Image URL Received: ", imageUrl);
+    await drawImageOnCanvas(imageUrl);
+    hideLoading();
+
+    // Show the Remove Background button
+    document.getElementById('removeBackgroundBtn').removeAttribute('hidden');
         } else {
           const errorResponse = await response.text();
           console.error("API Error:", errorResponse);
