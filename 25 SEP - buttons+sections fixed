@@ -1,58 +1,188 @@
 {% layout 'layout' %}
 {% section 'header' %}
-
-<!-- CSS Styles -->
 <style>
-/* Common Styles for Both Laptop and Mobile */
+      .hidden {
+        display: none;
+      }
 
-    .hidden {
+     .design-page-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 20px;
+      }
+
+      .left-section
+       {
+        position: relative;
+        width: 50%;
+        height: 100vh; /* Updated */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: linear-gradient(to bottom right, orange, red);
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px; /* Updated */
+        box-sizing: border-box;
+        overflow: hidden;  /* Updated */
+      }
+
+
+
+      .right-section {
+        position: relative;
+        width: 50%;
+        height: 100vh; /* Updated */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: linear-gradient(to bottom right, orange, green);
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px; /* Updated */
+        box-sizing: border-box;
+        overflow: hidden;  /* Updated */
+      }
+
+       #generateDesignBtn,
+      #checkoutBtn,
+      #pixelArtBtn {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      #generateDesignBtn:hover,
+      #checkoutBtn:hover,
+      #pixelArtBtn:hover {
+        background-color: #2980b9;
+      }
+
+      #generateDesignBtn {
+        margin-bottom: 70px;
+      }
+
+       .inspiration-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(to bottom right, yellow, orange);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      box-sizing: border-box;
+      margin-top: 20px;
+      margin-right: 20px;
+      margin-left: 20px;
+    }
+
+    .inspiration-images-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+
+    }
+
+    .inspiration-images-container img {
+      width: 30%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .how-it-works-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(to bottom right, yellow, orange);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      box-sizing: border-box;
+      margin-top: 20px;
+      margin-right: 20px;
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    .how-it-works-section ol {
+      margin-left: 20px;
+    }
+
+    .how-it-works-section ol li {
+      margin-bottom: 10px;
+    }
+
+      #designPrompt {
+        width: 100%;
+        height: 40px;
+        margin-bottom: 20px;
+      }
+
+      canvas {
+        display: none;
+      }
+
+      .canvas-container {
+        position: relative;  /* Add this line */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Loading Animation CSS */
+      #loadingAnimation {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 9999;
+      }
+
+      .loader {
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #3498db;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 2s linear infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+   /* New styles for button grid */
+    .button-grid {
       display: none;
     }
 
-   .design-page-container {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-left: 20px;
-  margin-right: 20px;
+
+  /* Add Media Query for Laptop View */
+    @media (max-width: 2000px) {
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: 10px;
     }
 
-    .left-section
-     {
-      position: relative;
-      width: 50%;
-      height: 100vh; /* Updated */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: linear-gradient(to bottom right, orange, red);
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px; /* Updated */
-      box-sizing: border-box;
-      overflow: hidden;  /* Updated */
-    }
-
-
-
-    .right-section {
-      position: relative;
-      width: 50%;
-      height: 100vh; /* Updated */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: linear-gradient(to bottom right, orange, green);
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px; /* Updated */
-      box-sizing: border-box;
-      overflow: hidden;  /* Updated */
-    }
-
-     #generateDesignBtn,
-    #checkoutBtn,
-    #pixelArtBtn {
+    .button-grid button {
       background-color: #3498db;
       color: white;
       border: none;
@@ -63,168 +193,41 @@
       transition: background-color 0.3s ease;
     }
 
-    #generateDesignBtn:hover,
-    #checkoutBtn:hover,
-    #pixelArtBtn:hover {
+    .button-grid button:hover {
       background-color: #2980b9;
     }
 
-    #generateDesignBtn {
-      margin-bottom: 70px;
+    /* Specific styling for the Go button */
+    .button-grid #goBtn {
+      background-color: green;
     }
 
-     .inspiration-section {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: linear-gradient(to bottom right, yellow, orange);
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    box-sizing: border-box;
-    margin-top: 20px;
-    margin-right: 20px;
-    margin-left: 20px;
-  }
-
-  .inspiration-images-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-
-  }
-
-  .inspiration-images-container img {
-    width: 30%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-
-  .how-it-works-section {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: linear-gradient(to bottom right, yellow, orange);
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    box-sizing: border-box;
-    margin-top: 20px;
-    margin-right: 20px;
-    margin-left: 20px;
-    margin-bottom: 20px;
-  }
-
-  .how-it-works-section ol {
-    margin-left: 20px;
-  }
-
-  .how-it-works-section ol li {
-    margin-bottom: 10px;
-  }
-
-    #designPrompt {
-      width: 100%;
-      height: 40px;
-      margin-bottom: 20px;
-    }
-
-    canvas {
-      display: none;
-    }
-
-    .canvas-container {
-      position: relative;  /* Add this line */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-    }
-
-    /* Loading Animation CSS */
-    #loadingAnimation {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5);
-      z-index: 9999;
-    }
-
-    .loader {
-      border: 5px solid #f3f3f3;
-      border-top: 5px solid #3498db;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 2s linear infinite;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
- /* New styles for button grid */
-  .button-grid {
-    display: none;  /* Hide it by default */
-  }
-
-
-/* Laptop View Specific Styles */
-  @media (max-width: 768px) {
-  .button-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 10px;
-  }
-
-  /* Generic Button Styles */
-  .button-grid button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-
-/* Generic Button Hover */
-  .button-grid button:hover {
-    background-color: #2980b9;
-  }
-  
-  /* Specific Styling for Go button */
-  .button-grid #goBtn {
-    background-color: green;
-  }
-
-  .button-grid #goBtn:hover {
-    background-color: darkgreen;
-  }
-}
-
-
-  /* Mobile View Specific Styles */
-   @media (min-width: 769px) {
- /* Your mobile-specific styles */
-    .button-grid {
-      display: grid;  /* Show the grid */
-      grid-template-columns: 1fr 1fr 1fr;  /* 3 columns with equal width */
-      grid-gap: 10px;  /* Gap between grid items */
+    .button-grid #goBtn:hover {
+      background-color: darkgreen;
     }
   }
+
+    /* Add Media Query for Mobile View */
+      @media (max-width: 768px) {
+      .design-page-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .left-section, .right-section {
+        width: 100%;
+        height: auto; /* Allow the height to be determined by content */
+      }
+      .canvas-container {
+        height: 400px; /* Fix the height of the canvas container */
+      }
+
+      .button-grid {
+        display: grid;  /* Show the grid */
+        grid-template-columns: 1fr 1fr 1fr;  /* 3 columns with equal width */
+        grid-gap: 10px;  /* Gap between grid items */
+      }
+    }
 </style>
-
 
 <div class="design-page">
   <div class="design-page-container">
@@ -235,7 +238,8 @@
         <input type="text" id="designPrompt" placeholder="Enter a design prompt" required>
       </div>
       <p>Example: A cat riding a skateboard in space</p>
-      <div class="button-grid">  <!-- New Grid container -->
+      <div class="button-grid">
+        <!-- New Grid container -->
         <button id="defaultArtBtn">Default</button>
         <button id="pixelArtBtn">Pixel Art</button>
         <button id="fantasyBtn">Fantasy</button>
@@ -252,7 +256,10 @@
         </div>
       </div>
       <button id="removeBackgroundBtn" disabled>Remove Background</button>
+      <button id="resetBackgroundBtn">Reset Background</button>
       <button id="checkoutBtn" disabled>Checkout</button>
+      <button id="frontBtn">Front</button>
+      <button id="backBtn">Back</button>
     </div>
   </div>
 
@@ -275,14 +282,18 @@
       <li>Click "Checkout" to purchase your custom T-shirt!</li>
     </ol>
   </div>
-
+</div>
 
 <script>
   
- var tshirtTemplateUrl = "{{ 'tshirtTemplate.png' | asset_url }}";
+  
+ var tshirtTemplateFrontUrl = "{{ 'tshirtTemplate.png' | asset_url }}";
+  var tshirtTemplateBackUrl = "{{ 'tshirtTemplate.jpg' | asset_url }}"; // This assumes you have a back template image named 'tshirtTemplateBack.png'
+  var currentTshirtTemplateUrl = tshirtTemplateFrontUrl;
+
   const A4_WIDTH_IN_PIXELS = 2480;
 
-  console.log('T-shirt Template URL:', tshirtTemplateUrl);
+  console.log('T-shirt Template URL:', tshirtTemplateFrontUrl);
   console.log('JavaScript loaded successfully!');
 
   let currentImageType = "original";  // Initialize to "original"
@@ -298,6 +309,7 @@
   function enableCheckout() {
     const checkoutBtn = document.getElementById('checkoutBtn');
     const removeBackgroundBtn = document.getElementById('removeBackgroundBtn');
+
     if (imageUrl) {
       checkoutBtn.disabled = false;
       removeBackgroundBtn.disabled = false;
@@ -337,6 +349,15 @@
   }
   metadata.checkoutVersion = currentImageType; // set checkout image version
 }
+
+document.getElementById('resetBackgroundBtn').addEventListener('click', function() {
+    if (metadata.originalImageUrl) {
+        imageUrl = metadata.originalImageUrl;
+        drawImageOnCanvas(imageUrl);
+    } else {
+        console.log("Original image not found. Cannot reset background.");
+    }
+});
 
 // Attach this function to your checkout button
 document.getElementById('checkoutBtn').addEventListener('click', checkout);
@@ -396,7 +417,8 @@ async function drawImageOnCanvas(imageUrl) {
 
   const tshirtImg = new Image();
   tshirtImg.crossOrigin = "Anonymous";
-  tshirtImg.src = tshirtTemplateUrl;
+  tshirtImg.src = currentTshirtTemplateUrl;
+
 
   const promises = [new Promise(resolve => tshirtImg.onload = resolve)];
   
@@ -459,7 +481,7 @@ async function drawImageOnCanvas(imageUrl) {
   const ctx = canvas.getContext('2d');
   const tshirtImg = new Image();
   tshirtImg.crossOrigin = "Anonymous";
-  tshirtImg.src = tshirtTemplateUrl;
+  tshirtImg.src = tshirtTemplateFrontUrl;
 
   // Place this line here
   tshirtImg.onload = () => {
@@ -470,7 +492,6 @@ async function drawImageOnCanvas(imageUrl) {
     console.log('Failed to load the T-shirt image.', error);
   };
 });
-
 
   document.addEventListener('DOMContentLoaded', function () {
     const designPrompt = document.getElementById('designPrompt');
@@ -538,7 +559,19 @@ async function drawImageOnCanvas(imageUrl) {
   });
 });
 
+document.getElementById('frontBtn').addEventListener('click', function() {
+    currentTshirtTemplateUrl = tshirtTemplateFrontUrl;
+    drawImageOnCanvas(imageUrl);
+});
 
+document.getElementById('backBtn').addEventListener('click', function() {
+    currentTshirtTemplateUrl = tshirtTemplateBackUrl;
+    drawImageOnCanvas(imageUrl);
+});
+
+
+
+    
     document.getElementById('goBtn').addEventListener('click', async () => {
       showLoading();
       if (selectedApi) {
@@ -580,5 +613,6 @@ async function drawImageOnCanvas(imageUrl) {
       }
     });
   });
+
 
 </script>
