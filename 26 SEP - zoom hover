@@ -1,7 +1,6 @@
 {% layout 'layout' %}
 {% section 'header' %}
 <style>
-
   .zoom-modal {
       display: none;
       position: fixed;
@@ -63,8 +62,6 @@
           box-sizing: border-box;
           overflow: hidden;  /* Updated */
         }
-
-
 
         .right-section {
           position: relative;
@@ -279,6 +276,7 @@
           grid-gap: 10px;  /* Gap between grid items */
         }
       }
+
 </style>
 
 <div class="design-page">
@@ -299,6 +297,11 @@
         <button id="cuteBtn">Cute</button>
         <button id="goBtn">Go</button>
       </div>
+<!-- Zoom Modal -->
+<div id="zoomModal" class="zoom-modal">
+    <span id="closeZoomModal" class="close">&times;</span>
+    <img id="zoomedImage" class="zoomed-image" src="">
+</div>
     </div>
     <div class="right-section">
       <div class="canvas-container">
@@ -345,8 +348,67 @@
 </div>
 
 <script>
-  
-  
+// JavaScript for Zoom Behavior
+
+document.getElementById('rightDesignCanvas').addEventListener('click', function() {
+    const zoomModal = document.getElementById('zoomModal');
+    const zoomedImage = document.getElementById('zoomedImage');
+
+    // Determine the maximum zoom level based on the device width
+    const maxZoomLevel = window.innerWidth / 2; // Adjust this value as needed
+
+    // Use the off-screen canvas to generate the zoomed image
+    const offScreenCanvas = document.getElementById('offScreenCanvas');
+
+    // Calculate the zoom factor to fit within the maximum zoom level
+    const zoomFactor = Math.min(1, maxZoomLevel / offScreenCanvas.width);
+
+    zoomedImage.style.maxWidth = maxZoomLevel + 'px'; // Limit the width
+    zoomedImage.style.maxHeight = (offScreenCanvas.height * zoomFactor) + 'px'; // Maintain aspect ratio
+
+    // Set the zoomed image source
+    zoomedImage.src = offScreenCanvas.toDataURL(); 
+    zoomModal.style.display = "block";
+});
+
+
+// Function to close the zoom modal
+function closeZoomModal() {
+    document.getElementById('zoomModal').style.display = "none";
+}
+
+// Add an event listener for laptop hover effect
+document.getElementById('rightDesignCanvas').addEventListener('mouseenter', function () {
+    // Apply a zoom effect when the mouse enters the canvas
+    document.getElementById('rightDesignCanvas').style.transform = "scale(1.5)";
+});
+
+// Add an event listener to remove the zoom effect on laptop mouse leave
+document.getElementById('rightDesignCanvas').addEventListener('mouseleave', function () {
+    // Remove the zoom effect when the mouse leaves the canvas
+    document.getElementById('rightDesignCanvas').style.transform = "scale(1)";
+});
+
+// Add an event listener for mobile click to show the zoom modal
+document.getElementById('rightDesignCanvas').addEventListener('click', function () {
+    // On mobile devices, clicking on the canvas will show the zoom modal
+    showZoomModal();
+});
+
+// Add an event listener to close the zoom modal when 'X' is clicked
+document.getElementById('closeZoomModal').addEventListener('click', function () {
+    // Close the zoom modal when the 'X' is clicked
+    closeZoomModal();
+});
+
+// Add an event listener to close the zoom modal when clicked outside of the image
+document.getElementById('zoomModal').addEventListener('click', function (event) {
+    if (event.target === document.getElementById('zoomModal')) {
+        // Close the zoom modal when clicked outside of the image
+        closeZoomModal();
+    }
+});
+
   
  var tshirtTemplateFrontUrl = "{{ 'tshirtTemplate.png' | asset_url }}";
   var tshirtTemplateBackUrl = "{{ 'tshirtTemplate.jpg' | asset_url }}"; // This assumes you have a back template image named 'tshirtTemplateBack.png'
@@ -464,8 +526,6 @@ document.getElementById('checkoutBtn').addEventListener('click', checkout);
   }
 }
 
-
-
 async function drawImageOnCanvas(imageUrl) {
   showLoading();
 
@@ -566,14 +626,7 @@ async function drawImageOnCanvas(imageUrl) {
 
   console.log("Off-screen canvas has been drawn successfully.");
 
-
-
-
-
 }
-
-
-
 
   window.addEventListener('load', function() {
   const canvasId = 'rightDesignCanvas';
@@ -672,9 +725,6 @@ document.getElementById('backBtn').addEventListener('click', function() {
     currentTshirtTemplateUrl = tshirtTemplateBackUrl;
     drawImageOnCanvas(imageUrl);
 });
-
-
-
     
     document.getElementById('goBtn').addEventListener('click', async () => {
       showLoading();
@@ -706,19 +756,47 @@ document.getElementById('backBtn').addEventListener('click', function() {
     await drawImageOnCanvas(imageUrl);
     hideLoading();
 
-    document.getElementById('rightDesignCanvas').addEventListener('mouseenter', function() {
-    const zoomModal = document.getElementById('zoomModal');
-    const zoomedImage = document.getElementById('zoomedImage');
+    document.getElementById('rightDesignCanvas').addEventListener('click', function() {
+    const zoomContainer = document.createElement('div');
+    zoomContainer.id = 'zoomContainer';
+    zoomContainer.style.display = 'flex';
+    zoomContainer.style.flexDirection = 'column';
+    zoomContainer.style.alignItems = 'center';
+    zoomContainer.style.position = 'fixed';
+    zoomContainer.style.left = '0';
+    zoomContainer.style.top = '0';
+    zoomContainer.style.width = '100%';
+    zoomContainer.style.height = '100%';
+    zoomContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    zoomContainer.style.zIndex = '9999';
     
-    const canvas = document.getElementById('rightDesignCanvas');
-    zoomedImage.src = canvas.toDataURL(); // Convert canvas content to an image URL
-    zoomModal.style.display = "block"; // Show the modal
+    const zoomedImage = document.createElement('img');
+    zoomedImage.id = 'zoomedImage';
+    zoomedImage.style.width = '80%'; // Adjust the width as needed
+    zoomedImage.src = ''; // Set the image source when clicked
+    
+    // Append the close button and zoomed image to the container
+    zoomContainer.appendChild(closeZoomModal);
+    zoomContainer.appendChild(zoomedImage);
+
+    // Append the container to the body
+    document.body.appendChild(zoomContainer);
+
+    // Use the off-screen canvas to generate the zoomed image
+    const offScreenCanvas = document.getElementById('offScreenCanvas');
+    zoomedImage.src = offScreenCanvas.toDataURL(); 
+
+    // Add an event listener to close the zoom view when the close button is clicked
+    closeZoomModal.addEventListener('click', function() {
+        zoomContainer.style.display = 'none';
+    });
 });
 
-document.getElementById('rightDesignCanvas').addEventListener('mouseleave', function() {
+
+// Close the zoom modal when 'X' is clicked
+document.getElementById('closeZoomModal').addEventListener('click', function() {
     document.getElementById('zoomModal').style.display = "none";
 });
-
 
     // Show the Remove Background button
     document.getElementById('removeBackgroundBtn').removeAttribute('hidden');
@@ -734,8 +812,6 @@ document.getElementById('rightDesignCanvas').addEventListener('mouseleave', func
       }
     });
   
-
-
   });
 
 </script>
