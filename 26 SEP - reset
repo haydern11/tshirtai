@@ -502,15 +502,18 @@ async function drawImageOnCanvas(imageUrl) {
     const apiUrlCyberpunk = 'https://api.deepai.org/api/cyberpunk-generator';
     const apiUrlCute = 'https://api.deepai.org/api/cute-creature-generator';
 
-    const removeBackgroundBtn = document.getElementById('resetBackgroundBtn').removeAttribute('hidden'); 
     removeBackgroundBtn.addEventListener('click', async () => {
-      console.log("Remove Background Button Clicked");
-      const newImageUrl = await removeBackground();
-      if (newImageUrl) {
+    console.log("Remove Background Button Clicked");
+    const newImageUrl = await removeBackground();
+    if (newImageUrl) {
         imageUrl = newImageUrl;
         metadata.noBackgroundImageUrl = newImageUrl; // Update metadata
         drawImageOnCanvas(imageUrl);
-      }
+        
+        // Show the Reset Background button
+        document.getElementById('resetBackgroundBtn').removeAttribute('hidden');
+    }
+      
     });
 
     function setApiAndLog(apiUrl, buttonName) {
