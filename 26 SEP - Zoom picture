@@ -63,8 +63,6 @@
           overflow: hidden;  /* Updated */
         }
 
-
-
         .right-section {
           position: relative;
           width: 50%;
@@ -278,6 +276,7 @@
           grid-gap: 10px;  /* Gap between grid items */
         }
       }
+
 </style>
 
 <div class="design-page">
@@ -344,8 +343,6 @@
 </div>
 
 <script>
-  
-  
   
  var tshirtTemplateFrontUrl = "{{ 'tshirtTemplate.png' | asset_url }}";
   var tshirtTemplateBackUrl = "{{ 'tshirtTemplate.jpg' | asset_url }}"; // This assumes you have a back template image named 'tshirtTemplateBack.png'
@@ -463,8 +460,6 @@ document.getElementById('checkoutBtn').addEventListener('click', checkout);
   }
 }
 
-
-
 async function drawImageOnCanvas(imageUrl) {
   showLoading();
 
@@ -565,14 +560,7 @@ async function drawImageOnCanvas(imageUrl) {
 
   console.log("Off-screen canvas has been drawn successfully.");
 
-
-
-
-
 }
-
-
-
 
   window.addEventListener('load', function() {
   const canvasId = 'rightDesignCanvas';
@@ -671,9 +659,6 @@ document.getElementById('backBtn').addEventListener('click', function() {
     currentTshirtTemplateUrl = tshirtTemplateBackUrl;
     drawImageOnCanvas(imageUrl);
 });
-
-
-
     
     document.getElementById('goBtn').addEventListener('click', async () => {
       showLoading();
@@ -715,15 +700,10 @@ document.getElementById('backBtn').addEventListener('click', function() {
     zoomModal.style.display = "block";
 });
 
-
-
-
-
 // Close the zoom modal when 'X' is clicked
 document.getElementById('closeZoomModal').addEventListener('click', function() {
     document.getElementById('zoomModal').style.display = "none";
 });
-
 
     // Show the Remove Background button
     document.getElementById('removeBackgroundBtn').removeAttribute('hidden');
@@ -739,8 +719,6 @@ document.getElementById('closeZoomModal').addEventListener('click', function() {
       }
     });
   
-
-
   });
 
 </script>
