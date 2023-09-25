@@ -208,7 +208,19 @@
 }
 
   /* Add Media Query for Mobile View */
-   @media (min-width: 769px) {
+    @media (max-width: 768px) {
+    .design-page-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .left-section, .right-section {
+      width: 100%;
+      height: auto; /* Allow the height to be determined by content */
+    }
+    .canvas-container {
+      height: 400px; /* Fix the height of the canvas container */
+    }
+
     .button-grid {
       display: grid;  /* Show the grid */
       grid-template-columns: 1fr 1fr 1fr;  /* 3 columns with equal width */
