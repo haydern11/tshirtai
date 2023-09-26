@@ -286,6 +286,11 @@
       <div>
         <label for="designPrompt">Design prompt:</label>
         <input type="text" id="designPrompt" placeholder="Enter a design prompt" required>
+
+        <datalist id="promptSuggestions">
+        <!-- Suggestions will be dynamically added here -->
+        </datalist>
+
       </div>
       <p>Example: A cat riding a skateboard in space</p>
       <div class="button-grid">
@@ -343,6 +348,37 @@
 </div>
 
 <script>
+
+const designPromptInput = document.getElementById('designPrompt');
+const promptSuggestionsList = document.getElementById('promptSuggestions');
+
+// List of possible prompt suggestions (you can replace this with your own data)
+const promptSuggestions = [
+  'A cat riding a skateboard in space',
+  'Abstract geometric patterns',
+  'Nature-inspired designs',
+  'Superhero-themed art',
+  // Add more suggestions here
+];
+
+designPromptInput.addEventListener('input', function () {
+  const userInput = designPromptInput.value.toLowerCase();
+  const filteredSuggestions = promptSuggestions.filter((suggestion) =>
+    suggestion.toLowerCase().includes(userInput)
+  );
+
+  // Clear previous suggestions
+  promptSuggestionsList.innerHTML = '';
+
+  // Add filtered suggestions to the datalist
+  filteredSuggestions.forEach((suggestion) => {
+    const option = document.createElement('option');
+    option.value = suggestion;
+    promptSuggestionsList.appendChild(option);
+  });
+});
+
+
   
  var tshirtTemplateFrontUrl = "{{ 'tshirtTemplate.png' | asset_url }}";
   var tshirtTemplateBackUrl = "{{ 'tshirtTemplate.jpg' | asset_url }}"; // This assumes you have a back template image named 'tshirtTemplateBack.png'
