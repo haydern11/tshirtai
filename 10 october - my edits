@@ -320,15 +320,15 @@
         <input type="text" id="designPrompt" placeholder="Enter a design prompt" required>
       </div>
       <p>Example: A cat riding a skateboard in space</p>
-      <div class="button-grid">
-        <!-- New Grid container -->
-        <button id="defaultArtBtn">Default</button>
-        <button id="pixelArtBtn">Pixel Art</button>
-        <button id="fantasyBtn">Fantasy</button>
-        <button id="cyberpunkBtn">Cyberpunk</button>
-        <button id="cuteBtn">Cute</button>
-        <button id="goBtn">Go</button>
-      </div>
+     <div class="button-grid">
+    <!-- New Grid container -->
+    <button id="defaultArtBtn">Default</button>
+    <button id="pixelArtBtn">Pixel Art</button>
+    <button id="superheroBtn">Superhero</button>
+    <button id="cyberpunkBtn">Cyberpunk</button>
+    <button id="filmPosterBtn">Film Poster</button>
+    <button id="goBtn">Go</button>
+</div>
     </div>
     <div class="right-section">
       <div class="canvas-container">
@@ -633,9 +633,9 @@ async function drawImageOnCanvas(imageUrl) {
     const apiKey = 'cad8857c-be3d-4102-96bc-a912bf5bb4e4';
     const apiUrlText2Img = 'https://api.deepai.org/api/text2img';
     const apiUrlPixelArt = 'https://api.deepai.org/api/pixel-art-generator';
-    const apiUrlFantasy = 'https://api.deepai.org/api/fantasy-world-generator';
+    const apiUrlSuperhero = 'https://api.deepai.org/api/comics-superhero-generator';
     const apiUrlCyberpunk = 'https://api.deepai.org/api/cyberpunk-generator';
-    const apiUrlCute = 'https://api.deepai.org/api/cute-creature-generator';
+    const apiUrlFilmPoster = 'https://api.deepai.org/api/film-poster-generator';
 
     removeBackgroundBtn.addEventListener('click', async () => {
     console.log("Remove Background Button Clicked");
@@ -656,11 +656,10 @@ async function drawImageOnCanvas(imageUrl) {
       selectedApi = apiUrl;
     }
 
-    document.getElementById('defaultArtBtn').addEventListener('click', () => setApiAndLog(apiUrlText2Img, 'Default Art'));
-    document.getElementById('pixelArtBtn').addEventListener('click', () => setApiAndLog(apiUrlPixelArt, 'Pixel Art'));
-    document.getElementById('fantasyBtn').addEventListener('click', () => setApiAndLog(apiUrlFantasy, 'Fantasy'));
+     document.getElementById('pixelArtBtn').addEventListener('click', () => setApiAndLog(apiUrlPixelArt, 'Pixel Art'));
+    document.getElementById('superheroBtn').addEventListener('click', () => setApiAndLog(apiUrlSuperhero, 'Superhero'));
     document.getElementById('cyberpunkBtn').addEventListener('click', () => setApiAndLog(apiUrlCyberpunk, 'Cyberpunk'));
-    document.getElementById('cuteBtn').addEventListener('click', () => setApiAndLog(apiUrlCute, 'Cute'));
+    document.getElementById('filmPosterBtn').addEventListener('click', () => setApiAndLog(apiUrlFilmPoster, 'Film Poster'));
 
     document.getElementById('checkoutBtn').addEventListener('click', () => {
   
