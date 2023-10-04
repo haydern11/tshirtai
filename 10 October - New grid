@@ -303,10 +303,12 @@
         }
 
         .button-grid {
-          display: grid;  /* Show the grid */
-          grid-template-columns: 1fr 1fr 1fr;  /* 3 columns with equal width */
-          grid-gap: 10px;  /* Gap between grid items */
-        }
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;  /* 3 columns with equal width */
+    grid-gap: 10px;  /* Gap between grid items */
+    margin-bottom: 20px;  /* Space between the grid and the Go button */
+}
+
       }
 
 </style>
@@ -323,12 +325,16 @@
      <div class="button-grid">
     <!-- New Grid container -->
     <button id="defaultArtBtn">Default</button>
+    <button id="abstractArtBtn">Abstract Art</button>
     <button id="pixelArtBtn">Pixel Art</button>
-    <button id="superheroBtn">Superhero</button>
+    <button id="supernaturalBtn">Supernatural</button>
+    <button id="fantasyBtn">Superhero</button>
+    <button id="popArtBtn">Pop Art</button>
     <button id="cyberpunkBtn">Cyberpunk</button>
     <button id="filmPosterBtn">Film Poster</button>
-    <button id="goBtn">Go</button>
+    <button id="portraitBtn">Portrait</button>
 </div>
+<button id="goBtn">Go</button>  <!-- Moved below the grid -->
     </div>
     <div class="right-section">
       <div class="canvas-container">
@@ -636,6 +642,10 @@ async function drawImageOnCanvas(imageUrl) {
     const apiUrlSuperhero = 'https://api.deepai.org/api/comics-superhero-generator';
     const apiUrlCyberpunk = 'https://api.deepai.org/api/cyberpunk-generator';
     const apiUrlFilmPoster = 'https://api.deepai.org/api/film-poster-generator';
+    const apiUrlAbstractArt = 'https://api.deepai.org/api/abstract-painting-generator';
+    const apiUrlSupernatural = 'https://api.deepai.org/api/supernatural-character-generator';
+    const apiUrlPopArt = 'https://api.deepai.org/api/pop-art-generator';
+    const apiUrlPortrait = 'https://api.deepai.org/api/surreal-portrait-generator';
 
     removeBackgroundBtn.addEventListener('click', async () => {
     console.log("Remove Background Button Clicked");
@@ -656,10 +666,14 @@ async function drawImageOnCanvas(imageUrl) {
       selectedApi = apiUrl;
     }
 
-     document.getElementById('pixelArtBtn').addEventListener('click', () => setApiAndLog(apiUrlPixelArt, 'Pixel Art'));
+    document.getElementById('pixelArtBtn').addEventListener('click', () => setApiAndLog(apiUrlPixelArt, 'Pixel Art'));
     document.getElementById('superheroBtn').addEventListener('click', () => setApiAndLog(apiUrlSuperhero, 'Superhero'));
     document.getElementById('cyberpunkBtn').addEventListener('click', () => setApiAndLog(apiUrlCyberpunk, 'Cyberpunk'));
     document.getElementById('filmPosterBtn').addEventListener('click', () => setApiAndLog(apiUrlFilmPoster, 'Film Poster'));
+    document.getElementById('abstractArtBtn').addEventListener('click', () => setApiAndLog(apiUrlAbstractArt, 'Abstract Art'));
+    document.getElementById('supernaturalBtn').addEventListener('click', () => setApiAndLog(apiUrlSupernatural, 'Supernatural'));
+    document.getElementById('popArtBtn').addEventListener('click', () => setApiAndLog(apiUrlPopArt, 'Pop Art'));
+    document.getElementById('portraitBtn').addEventListener('click', () => setApiAndLog(apiUrlPortrait, 'Portrait'));
 
     document.getElementById('checkoutBtn').addEventListener('click', () => {
   
