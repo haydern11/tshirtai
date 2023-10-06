@@ -329,6 +329,7 @@
     <button id="filmPosterBtn">Film Poster</button>
     <button id="goBtn">Go</button>
 </div>
+
     </div>
     <div class="right-section">
       <div class="canvas-container">
